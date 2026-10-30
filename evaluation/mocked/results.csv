@@ -1,0 +1,26 @@
+id,category,interface,execution_mode,status,duration_seconds,assertions_passed,assertions_total,failed_assertions,errors,mock_model_calls,live_sdk_calls
+S01,successful,agent,mocked,passed,0.07492400001501665,7,7,[],[],4,0
+S02,successful,agent,mocked,passed,0.0531246000318788,7,7,[],[],4,0
+S03,successful,agent,mocked,passed,0.06130150001263246,7,7,[],[],4,0
+S04,successful,agent,mocked,passed,0.05816810001851991,7,7,[],[],4,0
+S05,successful,agent,mocked,passed,0.04615690000355244,7,7,[],[],3,0
+D01,duplicate,agent,mocked,passed,0.12535369995748624,8,8,[],[],8,0
+D02,duplicate,agent,mocked,passed,0.10263119998853654,8,8,[],[],8,0
+D03,duplicate,agent,mocked,passed,0.07853689999319613,8,8,[],[],4,0
+D04,duplicate,agent,mocked,passed,0.07530490000499412,8,8,[],[],6,0
+M01,missing_information,agent,mocked,passed,0.02560069999890402,5,5,[],"[""Missing required tool arguments: manager""]",1,0
+M02,missing_information,agent,mocked,passed,0.027118799975141883,5,5,[],"[""Missing required tool arguments: role""]",1,0
+M03,missing_information,agent,mocked,passed,0.02577999996719882,5,5,[],"[""Missing required tool arguments: start_date""]",1,0
+M04,missing_information,agent,mocked,passed,0.025086799985729158,5,5,[],"[""Missing required tool arguments: name""]",1,0
+I01,invalid_input,agent,mocked,passed,0.027521600015461445,5,5,[],"[""Start date must be a valid calendar date in YYYY-MM-DD format""]",1,0
+I02,invalid_input,agent,mocked,passed,0.025961400009691715,5,5,[],"[""Start date must be a valid calendar date in YYYY-MM-DD format""]",1,0
+I03,invalid_input,agent,mocked,passed,0.027878699998836964,5,5,[],"[""Tool arguments must be a valid JSON object""]",1,0
+I04,invalid_input,agent,mocked,passed,0.04107170004863292,5,5,[],"[""Unsupported request type""]",2,0
+A01,approval_authorization,approval_api,direct_approval_api,passed,0.03605669998796657,7,7,[],"[""Approval must be provided by the assigned manager""]",0,0
+A02,approval_authorization,approval_api,direct_approval_api,passed,0.04276789998402819,6,6,[],[],0,0
+A03,approval_authorization,approval_api,direct_approval_api,passed,0.05166410002857447,7,7,[],[],0,0
+A04,approval_authorization,approval_api,direct_approval_api,passed,0.015290600014850497,5,5,[],"[""Approval must be provided by the assigned manager""]",0,0
+R01,robustness,agent,mocked,passed,0.0599136000382714,7,7,[],[],4,0
+R02,robustness,agent,mocked,passed,0.06775560003006831,7,7,[],[],4,0
+R03,robustness,agent,mocked,passed,0.05560339998919517,7,7,[],[],4,0
+R04,robustness,agent,mocked,passed,0.039125499955844134,8,8,[],"[""Tool execution failed. Review stored records before retrying."", ""Skipped because an earlier tool call failed""]",2,0

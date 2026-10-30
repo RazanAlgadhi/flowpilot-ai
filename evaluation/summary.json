@@ -1,0 +1,5249 @@
+{
+  "benchmark_version": 1,
+  "generated_at_utc": "2026-10-29T22:22:07.154191+00:00",
+  "mode": "mocked",
+  "command": "& 'C:\\Users\\Angel\\humain-hackathon\\.venv\\Scripts\\python.exe' 'evaluation/run_benchmark.py'",
+  "working_directory": "C:\\Users\\Angel\\humain-hackathon",
+  "production_database_unchanged": true,
+  "environment": {
+    "python": "3.11.0",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "sqlite": "3.38.4",
+    "openai": "2.54.0",
+    "streamlit": "1.66.1",
+    "configured_live_model": "gpt-4.1-mini",
+    "source_sha256": {
+      "agent.py": "95ab2608435a8837b634f5b4009e5a990ed0592a526629ec158b8f885ec28791",
+      "db.py": "16cc8f94589a90c46d32e57712365e62701b649ebc9e32f4df58d2619a2f00ce",
+      "app.py": "1145e154ab7f0da09c1551bf93878513cccba0a033b617cd48b8f4bb469dd4b2"
+    },
+    "scenarios_sha256": "267fe3f39c2c8c323d808ced470351b0ae07aa19888842997a108f092f1246a9"
+  },
+  "metrics": {
+    "overall_pass_rate": {
+      "numerator": 25,
+      "denominator": 25,
+      "value": 1.0
+    },
+    "category_pass_rates": {
+      "successful": {
+        "numerator": 5,
+        "denominator": 5,
+        "value": 1.0
+      },
+      "duplicate": {
+        "numerator": 4,
+        "denominator": 4,
+        "value": 1.0
+      },
+      "missing_information": {
+        "numerator": 4,
+        "denominator": 4,
+        "value": 1.0
+      },
+      "invalid_input": {
+        "numerator": 4,
+        "denominator": 4,
+        "value": 1.0
+      },
+      "approval_authorization": {
+        "numerator": 4,
+        "denominator": 4,
+        "value": 1.0
+      },
+      "robustness": {
+        "numerator": 4,
+        "denominator": 4,
+        "value": 1.0
+      }
+    },
+    "interface_pass_rates": {
+      "agent": {
+        "numerator": 21,
+        "denominator": 21,
+        "value": 1.0
+      },
+      "approval_api": {
+        "numerator": 4,
+        "denominator": 4,
+        "value": 1.0
+      }
+    },
+    "duplicate_prevention_success_rate": {
+      "numerator": 4,
+      "denominator": 4,
+      "value": 1.0
+    },
+    "missing_field_detection_success_rate": {
+      "numerator": 4,
+      "denominator": 4,
+      "value": 1.0
+    },
+    "invalid_input_rejection_rate": {
+      "numerator": 4,
+      "denominator": 4,
+      "value": 1.0
+    },
+    "approval_safety_success_rate": {
+      "numerator": 4,
+      "denominator": 4,
+      "value": 1.0
+    },
+    "average_execution_seconds": {
+      "numerator": 0.8588730000774376,
+      "denominator": 25,
+      "value": 0.034354920003097505
+    },
+    "median_execution_seconds": {
+      "numerator": 0.02767649997258559,
+      "denominator": 1,
+      "value": 0.02767649997258559,
+      "sample_count": 25
+    }
+  },
+  "api_usage": {
+    "mock_model_calls": 68,
+    "live_sdk_calls": 0,
+    "live_responses": 0,
+    "usage_coverage": {
+      "numerator": 0,
+      "denominator": 0
+    },
+    "observed_tokens": null,
+    "usage_complete": false,
+    "cost_estimate_usd": null,
+    "cost_note": "Not estimated: mocked calls have no provider usage, and no pinned model-specific pricing schedule is configured for live calls."
+  },
+  "limitations": [
+    "Mocked mode scripts model tool calls; it measures workflow/validation behavior, not LLM extraction, reasoning quality, latency, or live success rate.",
+    "The overall rate pools 21 agent scenarios and 4 direct approval API tests. Separate interface rates are included; approval tests never use OpenAI, even in live mode.",
+    "Rejection scenarios require a specific tool-validation error plus the expected database state. The current agent hides model clarification text behind a generic no-actions response. Safe abstention without a specific error is unobservable for detection and is not counted as a pass.",
+    "I03 scripts malformed tool arguments in mocked mode. Live mode sends the malformed user request, which need not produce malformed tool arguments. These exercise different layers and are explicitly labeled.",
+    "The injected create_request failure applies in both modes; its invocation is asserted. It does not simulate every possible network, storage, or provisioning failure.",
+    "Each scenario has its own temporary SQLite database. Multi-step actions within a scenario share that database. Individual application actions commit independently; partial writes can remain after a failure.",
+    "Approval remains an unauthenticated name-matching simulator. No resources are actually provisioned; no production authorization claim is made.",
+    "Only 25 synthetic scenarios are evaluated. There is no statistical generalization to real workloads, and no browser, production load, concurrency, or crash-recovery benchmark.",
+    "All dates in requests are absolute. Mock tool scripts are deterministic; wall times and live model responses are not. The application still supplies its current date to the model.",
+    "SDK call counts do not include internal HTTP retries. Token totals cover only responses carrying valid usage metadata; incomplete usage is identified. Cost is not estimated without a pinned pricing schedule.",
+    "The runner does not read .env. Live mode requires credentials already present in environment variables. Never run this in the same Python process as a serving dashboard because isolation temporarily patches module state.",
+    "The production database fingerprint is checked before and after the run. An external dashboard write during evaluation can change that fingerprint; the runner reports this and never restores or overwrites the production file."
+  ],
+  "scenarios": [
+    {
+      "id": "S01",
+      "category": "successful",
+      "title": "Data scientist with all resources",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Onboard Mira Fenwick as a Data Scientist starting 2029-01-08. Her manager is Nolan Ashford. Request a laptop, email, and GitHub access.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Mira Fenwick \u2014 Data Scientist. Start: 2029-01-08. Manager: Nolan Ashford.\n- laptop: requested; fulfillment pending\n- email: requested; fulfillment pending\n- github: awaiting manager approval",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Mira Fenwick\", \"role\": \"Data Scientist\", \"start_date\": \"2029-01-08\", \"manager\": \"Nolan Ashford\"}",
+              "result": {
+                "id": 1,
+                "name": "Mira Fenwick",
+                "role": "Data Scientist",
+                "start_date": "2029-01-08",
+                "manager": "Nolan Ashford"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 2,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"github\"}",
+              "result": {
+                "id": 3,
+                "employee_id": 1,
+                "kind": "github",
+                "status": "pending_manager_approval"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Mira Fenwick",
+                  "role": "Data Scientist",
+                  "start_date": "2029-01-08",
+                  "manager": "Nolan Ashford"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Mira Fenwick",
+                  "role": "Data Scientist",
+                  "start_date": "2029-01-08",
+                  "manager": "Nolan Ashford"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Mira Fenwick",
+                "role": "Data Scientist",
+                "start_date": "2029-01-08",
+                "manager": "Nolan Ashford"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                },
+                {
+                  "id": 3,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Mira Fenwick",
+              "role": "Data Scientist",
+              "start_date": "2029-01-08",
+              "manager": "Nolan Ashford"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Mira Fenwick",
+              "role": "Data Scientist",
+              "start_date": "2029-01-08",
+              "manager": "Nolan Ashford"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "laptop": "requested",
+              "email": "requested",
+              "github": "pending_manager_approval"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "github",
+              "pending_manager_approval"
+            ],
+            [
+              "laptop",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 3,
+            "unique_requests": 3
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Mira Fenwick",
+            "role": "Data Scientist",
+            "start_date": "2029-01-08",
+            "manager": "Nolan Ashford"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "laptop",
+              "status": "requested"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            },
+            {
+              "id": 3,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "pending_manager_approval"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.05603019997943193
+    },
+    {
+      "id": "S02",
+      "category": "successful",
+      "title": "People operations with email",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Create an onboarding for Theo Briar, People Operations Specialist, starting 2029-02-12, managed by Elara Moss. Request only an email account.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Theo Briar \u2014 People Operations Specialist. Start: 2029-02-12. Manager: Elara Moss.\n- email: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Theo Briar\", \"role\": \"People Operations Specialist\", \"start_date\": \"2029-02-12\", \"manager\": \"Elara Moss\"}",
+              "result": {
+                "id": 1,
+                "name": "Theo Briar",
+                "role": "People Operations Specialist",
+                "start_date": "2029-02-12",
+                "manager": "Elara Moss"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Theo Briar",
+                  "role": "People Operations Specialist",
+                  "start_date": "2029-02-12",
+                  "manager": "Elara Moss"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Theo Briar",
+                  "role": "People Operations Specialist",
+                  "start_date": "2029-02-12",
+                  "manager": "Elara Moss"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Theo Briar",
+                "role": "People Operations Specialist",
+                "start_date": "2029-02-12",
+                "manager": "Elara Moss"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Theo Briar",
+              "role": "People Operations Specialist",
+              "start_date": "2029-02-12",
+              "manager": "Elara Moss"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Theo Briar",
+              "role": "People Operations Specialist",
+              "start_date": "2029-02-12",
+              "manager": "Elara Moss"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 1,
+            "unique_requests": 1
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Theo Briar",
+            "role": "People Operations Specialist",
+            "start_date": "2029-02-12",
+            "manager": "Elara Moss"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.04774930002167821
+    },
+    {
+      "id": "S03",
+      "category": "successful",
+      "title": "Designer with equipment and email",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Liora Venn joins as Product Designer on 2029-03-19 under Cassian Vale. Please onboard her and request a laptop and email account.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Liora Venn \u2014 Product Designer. Start: 2029-03-19. Manager: Cassian Vale.\n- laptop: requested; fulfillment pending\n- email: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Liora Venn\", \"role\": \"Product Designer\", \"start_date\": \"2029-03-19\", \"manager\": \"Cassian Vale\"}",
+              "result": {
+                "id": 1,
+                "name": "Liora Venn",
+                "role": "Product Designer",
+                "start_date": "2029-03-19",
+                "manager": "Cassian Vale"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 2,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Liora Venn",
+                  "role": "Product Designer",
+                  "start_date": "2029-03-19",
+                  "manager": "Cassian Vale"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Liora Venn",
+                  "role": "Product Designer",
+                  "start_date": "2029-03-19",
+                  "manager": "Cassian Vale"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Liora Venn",
+                "role": "Product Designer",
+                "start_date": "2029-03-19",
+                "manager": "Cassian Vale"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Liora Venn",
+              "role": "Product Designer",
+              "start_date": "2029-03-19",
+              "manager": "Cassian Vale"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Liora Venn",
+              "role": "Product Designer",
+              "start_date": "2029-03-19",
+              "manager": "Cassian Vale"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "laptop": "requested",
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "laptop",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 2,
+            "unique_requests": 2
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Liora Venn",
+            "role": "Product Designer",
+            "start_date": "2029-03-19",
+            "manager": "Cassian Vale"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "laptop",
+              "status": "requested"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.05818549997638911
+    },
+    {
+      "id": "S04",
+      "category": "successful",
+      "title": "Security engineer with GitHub",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Onboard Orin Thistle as Security Engineer, start date 2029-04-23, manager Selene Hartwell. Request GitHub access only.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Orin Thistle \u2014 Security Engineer. Start: 2029-04-23. Manager: Selene Hartwell.\n- github: awaiting manager approval",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Orin Thistle\", \"role\": \"Security Engineer\", \"start_date\": \"2029-04-23\", \"manager\": \"Selene Hartwell\"}",
+              "result": {
+                "id": 1,
+                "name": "Orin Thistle",
+                "role": "Security Engineer",
+                "start_date": "2029-04-23",
+                "manager": "Selene Hartwell"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"github\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "github",
+                "status": "pending_manager_approval"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Orin Thistle",
+                  "role": "Security Engineer",
+                  "start_date": "2029-04-23",
+                  "manager": "Selene Hartwell"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Orin Thistle",
+                  "role": "Security Engineer",
+                  "start_date": "2029-04-23",
+                  "manager": "Selene Hartwell"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Orin Thistle",
+                "role": "Security Engineer",
+                "start_date": "2029-04-23",
+                "manager": "Selene Hartwell"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Orin Thistle",
+              "role": "Security Engineer",
+              "start_date": "2029-04-23",
+              "manager": "Selene Hartwell"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Orin Thistle",
+              "role": "Security Engineer",
+              "start_date": "2029-04-23",
+              "manager": "Selene Hartwell"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "github": "pending_manager_approval"
+            }
+          },
+          "observed": [
+            [
+              "github",
+              "pending_manager_approval"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 1,
+            "unique_requests": 1
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Orin Thistle",
+            "role": "Security Engineer",
+            "start_date": "2029-04-23",
+            "manager": "Selene Hartwell"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "pending_manager_approval"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.02760380000108853
+    },
+    {
+      "id": "S05",
+      "category": "successful",
+      "title": "Finance analyst profile only",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Create the employee record for Zara Ellery, Finance Analyst, starting 2029-05-14, reporting to Dorian Wren. Do not request any resources.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Zara Ellery \u2014 Finance Analyst. Start: 2029-05-14. Manager: Dorian Wren.\nNo resource requests recorded.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Zara Ellery\", \"role\": \"Finance Analyst\", \"start_date\": \"2029-05-14\", \"manager\": \"Dorian Wren\"}",
+              "result": {
+                "id": 1,
+                "name": "Zara Ellery",
+                "role": "Finance Analyst",
+                "start_date": "2029-05-14",
+                "manager": "Dorian Wren"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Zara Ellery",
+                  "role": "Finance Analyst",
+                  "start_date": "2029-05-14",
+                  "manager": "Dorian Wren"
+                },
+                "requests": []
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Zara Ellery",
+                  "role": "Finance Analyst",
+                  "start_date": "2029-05-14",
+                  "manager": "Dorian Wren"
+                },
+                "requests": []
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Zara Ellery",
+                "role": "Finance Analyst",
+                "start_date": "2029-05-14",
+                "manager": "Dorian Wren"
+              },
+              "requests": []
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Zara Ellery",
+              "role": "Finance Analyst",
+              "start_date": "2029-05-14",
+              "manager": "Dorian Wren"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Zara Ellery",
+              "role": "Finance Analyst",
+              "start_date": "2029-05-14",
+              "manager": "Dorian Wren"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 0,
+            "unique_requests": 0
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Zara Ellery",
+            "role": "Finance Analyst",
+            "start_date": "2029-05-14",
+            "manager": "Dorian Wren"
+          },
+          "requests": []
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 3,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.02767649997258559
+    },
+    {
+      "id": "D01",
+      "category": "duplicate",
+      "title": "Exact full workflow repeated",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Repeated operations retain employee and resource IDs, counts, and existing statuses.",
+      "actions": [
+        {
+          "request": "Onboard Tamsin Alder as Backend Engineer starting 2029-06-04, manager Ivo Marlow. Request laptop, email, github.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Tamsin Alder \u2014 Backend Engineer. Start: 2029-06-04. Manager: Ivo Marlow.\n- laptop: requested; fulfillment pending\n- email: requested; fulfillment pending\n- github: awaiting manager approval",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Tamsin Alder\", \"role\": \"Backend Engineer\", \"start_date\": \"2029-06-04\", \"manager\": \"Ivo Marlow\"}",
+              "result": {
+                "id": 1,
+                "name": "Tamsin Alder",
+                "role": "Backend Engineer",
+                "start_date": "2029-06-04",
+                "manager": "Ivo Marlow"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 2,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"github\"}",
+              "result": {
+                "id": 3,
+                "employee_id": 1,
+                "kind": "github",
+                "status": "pending_manager_approval"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Tamsin Alder",
+                  "role": "Backend Engineer",
+                  "start_date": "2029-06-04",
+                  "manager": "Ivo Marlow"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Tamsin Alder",
+                  "role": "Backend Engineer",
+                  "start_date": "2029-06-04",
+                  "manager": "Ivo Marlow"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Tamsin Alder",
+                "role": "Backend Engineer",
+                "start_date": "2029-06-04",
+                "manager": "Ivo Marlow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                },
+                {
+                  "id": 3,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        },
+        {
+          "request": "Onboard Tamsin Alder as Backend Engineer starting 2029-06-04, manager Ivo Marlow. Request laptop, email, github.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Tamsin Alder \u2014 Backend Engineer. Start: 2029-06-04. Manager: Ivo Marlow.\n- laptop: requested; fulfillment pending\n- email: requested; fulfillment pending\n- github: awaiting manager approval",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Tamsin Alder\", \"role\": \"Backend Engineer\", \"start_date\": \"2029-06-04\", \"manager\": \"Ivo Marlow\"}",
+              "result": {
+                "id": 1,
+                "name": "Tamsin Alder",
+                "role": "Backend Engineer",
+                "start_date": "2029-06-04",
+                "manager": "Ivo Marlow"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"github\"}",
+              "result": {
+                "id": 3,
+                "employee_id": 1,
+                "kind": "github",
+                "status": "pending_manager_approval"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 2,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Tamsin Alder",
+                  "role": "Backend Engineer",
+                  "start_date": "2029-06-04",
+                  "manager": "Ivo Marlow"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Tamsin Alder",
+                  "role": "Backend Engineer",
+                  "start_date": "2029-06-04",
+                  "manager": "Ivo Marlow"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Tamsin Alder",
+                "role": "Backend Engineer",
+                "start_date": "2029-06-04",
+                "manager": "Ivo Marlow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                },
+                {
+                  "id": 3,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Tamsin Alder",
+                "role": "Backend Engineer",
+                "start_date": "2029-06-04",
+                "manager": "Ivo Marlow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                },
+                {
+                  "id": 3,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Tamsin Alder",
+              "role": "Backend Engineer",
+              "start_date": "2029-06-04",
+              "manager": "Ivo Marlow"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Tamsin Alder",
+              "role": "Backend Engineer",
+              "start_date": "2029-06-04",
+              "manager": "Ivo Marlow"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "laptop": "requested",
+              "email": "requested",
+              "github": "pending_manager_approval"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "github",
+              "pending_manager_approval"
+            ],
+            [
+              "laptop",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 3,
+            "unique_requests": 3
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true,
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              1
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Tamsin Alder",
+            "role": "Backend Engineer",
+            "start_date": "2029-06-04",
+            "manager": "Ivo Marlow"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "laptop",
+              "status": "requested"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            },
+            {
+              "id": 3,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "pending_manager_approval"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 8,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.1288215999957174
+    },
+    {
+      "id": "D02",
+      "category": "duplicate",
+      "title": "Repeated email request",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Repeated operations retain employee and resource IDs, counts, and existing statuses.",
+      "actions": [
+        {
+          "request": "Onboard Ronan Bell as Recruiter starting 2029-06-11, manager Faye Lind. Request email.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Ronan Bell \u2014 Recruiter. Start: 2029-06-11. Manager: Faye Lind.\n- email: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Ronan Bell\", \"role\": \"Recruiter\", \"start_date\": \"2029-06-11\", \"manager\": \"Faye Lind\"}",
+              "result": {
+                "id": 1,
+                "name": "Ronan Bell",
+                "role": "Recruiter",
+                "start_date": "2029-06-11",
+                "manager": "Faye Lind"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Ronan Bell",
+                  "role": "Recruiter",
+                  "start_date": "2029-06-11",
+                  "manager": "Faye Lind"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Ronan Bell",
+                  "role": "Recruiter",
+                  "start_date": "2029-06-11",
+                  "manager": "Faye Lind"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Ronan Bell",
+                "role": "Recruiter",
+                "start_date": "2029-06-11",
+                "manager": "Faye Lind"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        },
+        {
+          "request": "Onboard Ronan Bell as Recruiter starting 2029-06-11, manager Faye Lind. Request email.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Ronan Bell \u2014 Recruiter. Start: 2029-06-11. Manager: Faye Lind.\n- email: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Ronan Bell\", \"role\": \"Recruiter\", \"start_date\": \"2029-06-11\", \"manager\": \"Faye Lind\"}",
+              "result": {
+                "id": 1,
+                "name": "Ronan Bell",
+                "role": "Recruiter",
+                "start_date": "2029-06-11",
+                "manager": "Faye Lind"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Ronan Bell",
+                  "role": "Recruiter",
+                  "start_date": "2029-06-11",
+                  "manager": "Faye Lind"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Ronan Bell",
+                  "role": "Recruiter",
+                  "start_date": "2029-06-11",
+                  "manager": "Faye Lind"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Ronan Bell",
+                "role": "Recruiter",
+                "start_date": "2029-06-11",
+                "manager": "Faye Lind"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Ronan Bell",
+                "role": "Recruiter",
+                "start_date": "2029-06-11",
+                "manager": "Faye Lind"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Ronan Bell",
+              "role": "Recruiter",
+              "start_date": "2029-06-11",
+              "manager": "Faye Lind"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Ronan Bell",
+              "role": "Recruiter",
+              "start_date": "2029-06-11",
+              "manager": "Faye Lind"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 1,
+            "unique_requests": 1
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true,
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              1
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Ronan Bell",
+            "role": "Recruiter",
+            "start_date": "2029-06-11",
+            "manager": "Faye Lind"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 8,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.09329290001187474
+    },
+    {
+      "id": "D03",
+      "category": "duplicate",
+      "title": "Repeated GitHub request after approval",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Repeated operations retain employee and resource IDs, counts, and existing statuses.",
+      "actions": [
+        {
+          "request": "Onboard Nessa Corwin as Platform Engineer starting 2029-06-18, manager Bram Ellison. Request github.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Nessa Corwin \u2014 Platform Engineer. Start: 2029-06-18. Manager: Bram Ellison.\n- github: approved; provisioning pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Nessa Corwin\", \"role\": \"Platform Engineer\", \"start_date\": \"2029-06-18\", \"manager\": \"Bram Ellison\"}",
+              "result": {
+                "id": 1,
+                "name": "Nessa Corwin",
+                "role": "Platform Engineer",
+                "start_date": "2029-06-18",
+                "manager": "Bram Ellison"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"github\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "github",
+                "status": "approved_pending_provisioning"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Nessa Corwin",
+                  "role": "Platform Engineer",
+                  "start_date": "2029-06-18",
+                  "manager": "Bram Ellison"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "approved_pending_provisioning"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Nessa Corwin",
+                  "role": "Platform Engineer",
+                  "start_date": "2029-06-18",
+                  "manager": "Bram Ellison"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "approved_pending_provisioning"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Nessa Corwin",
+                "role": "Platform Engineer",
+                "start_date": "2029-06-18",
+                "manager": "Bram Ellison"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "approved_pending_provisioning"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Nessa Corwin",
+                "role": "Platform Engineer",
+                "start_date": "2029-06-18",
+                "manager": "Bram Ellison"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "approved_pending_provisioning"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Nessa Corwin",
+              "role": "Platform Engineer",
+              "start_date": "2029-06-18",
+              "manager": "Bram Ellison"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Nessa Corwin",
+              "role": "Platform Engineer",
+              "start_date": "2029-06-18",
+              "manager": "Bram Ellison"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "github": "approved_pending_provisioning"
+            }
+          },
+          "observed": [
+            [
+              "github",
+              "approved_pending_provisioning"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 1,
+            "unique_requests": 1
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Nessa Corwin",
+            "role": "Platform Engineer",
+            "start_date": "2029-06-18",
+            "manager": "Bram Ellison"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "approved_pending_provisioning"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.049222400004509836
+    },
+    {
+      "id": "D04",
+      "category": "duplicate",
+      "title": "Profile-only onboarding repeated",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Repeated operations retain employee and resource IDs, counts, and existing statuses.",
+      "actions": [
+        {
+          "request": "Onboard Arlo Quill as Business Analyst starting 2029-06-25, manager Lyra Sedge. Create only the employee profile; no resources.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Arlo Quill \u2014 Business Analyst. Start: 2029-06-25. Manager: Lyra Sedge.\nNo resource requests recorded.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Arlo Quill\", \"role\": \"Business Analyst\", \"start_date\": \"2029-06-25\", \"manager\": \"Lyra Sedge\"}",
+              "result": {
+                "id": 1,
+                "name": "Arlo Quill",
+                "role": "Business Analyst",
+                "start_date": "2029-06-25",
+                "manager": "Lyra Sedge"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Arlo Quill",
+                  "role": "Business Analyst",
+                  "start_date": "2029-06-25",
+                  "manager": "Lyra Sedge"
+                },
+                "requests": []
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Arlo Quill",
+                  "role": "Business Analyst",
+                  "start_date": "2029-06-25",
+                  "manager": "Lyra Sedge"
+                },
+                "requests": []
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Arlo Quill",
+                "role": "Business Analyst",
+                "start_date": "2029-06-25",
+                "manager": "Lyra Sedge"
+              },
+              "requests": []
+            }
+          ],
+          "bytes_unchanged": false
+        },
+        {
+          "request": "Onboard Arlo Quill as Business Analyst starting 2029-06-25, manager Lyra Sedge. Create only the employee profile; no resources.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Arlo Quill \u2014 Business Analyst. Start: 2029-06-25. Manager: Lyra Sedge.\nNo resource requests recorded.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Arlo Quill\", \"role\": \"Business Analyst\", \"start_date\": \"2029-06-25\", \"manager\": \"Lyra Sedge\"}",
+              "result": {
+                "id": 1,
+                "name": "Arlo Quill",
+                "role": "Business Analyst",
+                "start_date": "2029-06-25",
+                "manager": "Lyra Sedge"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Arlo Quill",
+                  "role": "Business Analyst",
+                  "start_date": "2029-06-25",
+                  "manager": "Lyra Sedge"
+                },
+                "requests": []
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Arlo Quill",
+                  "role": "Business Analyst",
+                  "start_date": "2029-06-25",
+                  "manager": "Lyra Sedge"
+                },
+                "requests": []
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Arlo Quill",
+                "role": "Business Analyst",
+                "start_date": "2029-06-25",
+                "manager": "Lyra Sedge"
+              },
+              "requests": []
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Arlo Quill",
+                "role": "Business Analyst",
+                "start_date": "2029-06-25",
+                "manager": "Lyra Sedge"
+              },
+              "requests": []
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Arlo Quill",
+              "role": "Business Analyst",
+              "start_date": "2029-06-25",
+              "manager": "Lyra Sedge"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Arlo Quill",
+              "role": "Business Analyst",
+              "start_date": "2029-06-25",
+              "manager": "Lyra Sedge"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 0,
+            "unique_requests": 0
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true,
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              1
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Arlo Quill",
+            "role": "Business Analyst",
+            "start_date": "2029-06-25",
+            "manager": "Lyra Sedge"
+          },
+          "requests": []
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 6,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.030371900007594377
+    },
+    {
+      "id": "M01",
+      "category": "missing_information",
+      "title": "Missing manager",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "No writes; a field-specific validation error identifies manager. Safe abstention without a field-specific signal is recorded as unobservable, not as detection success.",
+      "actions": [
+        {
+          "request": "Onboard Eira Solwick as Research Engineer starting 2029-07-09 and request a laptop. The manager has not been provided; do not invent one.",
+          "answer": "Workflow stopped: create_employee: Missing required tool arguments: manager Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Eira Solwick\", \"role\": \"Research Engineer\", \"start_date\": \"2029-07-09\"}",
+              "result": {
+                "error": "Missing required tool arguments: manager"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "manager"
+          },
+          "observed": [
+            "Missing required tool arguments: manager"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Missing required tool arguments: manager"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.01418790000025183
+    },
+    {
+      "id": "M02",
+      "category": "missing_information",
+      "title": "Missing role",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "No writes; a field-specific validation error identifies role. Safe abstention without a field-specific signal is recorded as unobservable, not as detection success.",
+      "actions": [
+        {
+          "request": "Onboard Eira Solwick starting 2029-07-09, managed by Jasper Reed, and request a laptop. The role has not been provided; do not invent it.",
+          "answer": "Workflow stopped: create_employee: Missing required tool arguments: role Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Eira Solwick\", \"start_date\": \"2029-07-09\", \"manager\": \"Jasper Reed\"}",
+              "result": {
+                "error": "Missing required tool arguments: role"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "role"
+          },
+          "observed": [
+            "Missing required tool arguments: role"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Missing required tool arguments: role"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.012024900002870709
+    },
+    {
+      "id": "M03",
+      "category": "missing_information",
+      "title": "Missing start_date",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "No writes; a field-specific validation error identifies start_date. Safe abstention without a field-specific signal is recorded as unobservable, not as detection success.",
+      "actions": [
+        {
+          "request": "Onboard Eira Solwick as Research Engineer, manager Jasper Reed, and request a laptop. The start date has not been provided; do not invent it.",
+          "answer": "Workflow stopped: create_employee: Missing required tool arguments: start_date Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Eira Solwick\", \"role\": \"Research Engineer\", \"manager\": \"Jasper Reed\"}",
+              "result": {
+                "error": "Missing required tool arguments: start_date"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "start_date"
+          },
+          "observed": [
+            "Missing required tool arguments: start_date"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Missing required tool arguments: start_date"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.01390780002111569
+    },
+    {
+      "id": "M04",
+      "category": "missing_information",
+      "title": "Missing name",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "No writes; a field-specific validation error identifies name. Safe abstention without a field-specific signal is recorded as unobservable, not as detection success.",
+      "actions": [
+        {
+          "request": "Onboard a Research Engineer starting 2029-07-09, manager Jasper Reed, with a laptop. The employee name has not been provided; do not invent it.",
+          "answer": "Workflow stopped: create_employee: Missing required tool arguments: name Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"role\": \"Research Engineer\", \"start_date\": \"2029-07-09\", \"manager\": \"Jasper Reed\"}",
+              "result": {
+                "error": "Missing required tool arguments: name"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "name"
+          },
+          "observed": [
+            "Missing required tool arguments: name"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Missing required tool arguments: name"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.012771200039424002
+    },
+    {
+      "id": "I01",
+      "category": "invalid_input",
+      "title": "Invalid month",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Reject the invalid calendar date with a validation error and no writes.",
+      "actions": [
+        {
+          "request": "Onboard Soren Elm as Operations Analyst, manager Ada Brook, starting 2029-13-04. Request email. Do not infer a replacement date if this date is invalid.",
+          "answer": "Workflow stopped: create_employee: Start date must be a valid calendar date in YYYY-MM-DD format Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Soren Elm\", \"role\": \"Operations Analyst\", \"start_date\": \"2029-13-04\", \"manager\": \"Ada Brook\"}",
+              "result": {
+                "error": "Start date must be a valid calendar date in YYYY-MM-DD format"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "YYYY-MM-DD"
+          },
+          "observed": [
+            "Start date must be a valid calendar date in YYYY-MM-DD format"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Start date must be a valid calendar date in YYYY-MM-DD format"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.012988400005269796
+    },
+    {
+      "id": "I02",
+      "category": "invalid_input",
+      "title": "Nonexistent leap day",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Reject the invalid calendar date with a validation error and no writes.",
+      "actions": [
+        {
+          "request": "Onboard Soren Elm as Operations Analyst, manager Ada Brook, starting 2029-02-29. Request email. Do not infer a replacement date if this date is invalid.",
+          "answer": "Workflow stopped: create_employee: Start date must be a valid calendar date in YYYY-MM-DD format Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Soren Elm\", \"role\": \"Operations Analyst\", \"start_date\": \"2029-02-29\", \"manager\": \"Ada Brook\"}",
+              "result": {
+                "error": "Start date must be a valid calendar date in YYYY-MM-DD format"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "YYYY-MM-DD"
+          },
+          "observed": [
+            "Start date must be a valid calendar date in YYYY-MM-DD format"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Start date must be a valid calendar date in YYYY-MM-DD format"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.012651600001845509
+    },
+    {
+      "id": "I03",
+      "category": "invalid_input",
+      "title": "Malformed structured input and scripted tool arguments",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "No writes and an observable JSON validation error. Mock mode explicitly scripts malformed tool arguments; it does not test natural-language extraction.",
+      "actions": [
+        {
+          "request": "{\"name\": \"Fictional Employee\", \"role\": [}",
+          "answer": "Workflow stopped: create_employee: Tool arguments must be a valid JSON object Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Fictional Employee\", \"role\": [}",
+              "result": {
+                "error": "Tool arguments must be a valid JSON object"
+              }
+            }
+          ],
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "JSON"
+          },
+          "observed": [
+            "Tool arguments must be a valid JSON object"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Tool arguments must be a valid JSON object"
+      ],
+      "api_usage": {
+        "mock_model_calls": 1,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.012518700037617236
+    },
+    {
+      "id": "I04",
+      "category": "invalid_input",
+      "title": "Unsupported VPN resource",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Reject unsupported VPN with a specific validation error and zero requests. A valid employee profile may already have been committed.",
+      "actions": [
+        {
+          "request": "Onboard Perrin Lake as Network Analyst starting 2029-08-13, manager Flora Penn. Request only VPN access. Do not substitute another resource.",
+          "answer": "Workflow stopped: create_request: Unsupported request type Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Perrin Lake\", \"role\": \"Network Analyst\", \"start_date\": \"2029-08-13\", \"manager\": \"Flora Penn\"}",
+              "result": {
+                "id": 1,
+                "name": "Perrin Lake",
+                "role": "Network Analyst",
+                "start_date": "2029-08-13",
+                "manager": "Flora Penn"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"vpn\"}",
+              "result": {
+                "error": "Unsupported request type"
+              }
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Perrin Lake",
+                "role": "Network Analyst",
+                "start_date": "2029-08-13",
+                "manager": "Flora Penn"
+              },
+              "requests": []
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "allowed": [
+              0,
+              1
+            ]
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Perrin Lake",
+              "role": "Network Analyst",
+              "start_date": "2029-08-13",
+              "manager": "Flora Penn"
+            },
+            "allow_absent": true
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Perrin Lake",
+              "role": "Network Analyst",
+              "start_date": "2029-08-13",
+              "manager": "Flora Penn"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "validation_error",
+          "passed": true,
+          "expected": {
+            "type": "validation_error",
+            "contains": "Unsupported request type"
+          },
+          "observed": [
+            "Unsupported request type"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Perrin Lake",
+            "role": "Network Analyst",
+            "start_date": "2029-08-13",
+            "manager": "Flora Penn"
+          },
+          "requests": []
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Unsupported request type"
+      ],
+      "api_usage": {
+        "mock_model_calls": 2,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.01719969999976456
+    },
+    {
+      "id": "A01",
+      "category": "approval_authorization",
+      "title": "Wrong manager",
+      "interface": "approval_api",
+      "execution_mode": "direct_approval_api",
+      "expected_outcome": "Reject the approval and leave the database byte-for-byte unchanged.",
+      "actions": [
+        {
+          "approval_input": {
+            "employee_id": 1,
+            "approver": "Unassigned Test Manager"
+          },
+          "approval_result": {
+            "error": "Approval must be provided by the assigned manager"
+          },
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Cleo Winter",
+              "role": "Infrastructure Engineer",
+              "start_date": "2029-09-03",
+              "manager": "Rowan Farrow"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Cleo Winter",
+              "role": "Infrastructure Engineer",
+              "start_date": "2029-09-03",
+              "manager": "Rowan Farrow"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "github": "pending_manager_approval",
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "github",
+              "pending_manager_approval"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 2,
+            "unique_requests": 2
+          },
+          "note": ""
+        },
+        {
+          "type": "approval_results",
+          "passed": true,
+          "expected": {
+            "type": "approval_results",
+            "equals": [
+              "error"
+            ]
+          },
+          "observed": [
+            "error"
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ],
+            "byte_for_byte": true
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Cleo Winter",
+            "role": "Infrastructure Engineer",
+            "start_date": "2029-09-03",
+            "manager": "Rowan Farrow"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "pending_manager_approval"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Approval must be provided by the assigned manager"
+      ],
+      "api_usage": {
+        "mock_model_calls": 0,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.029510200023651123
+    },
+    {
+      "id": "A02",
+      "category": "approval_authorization",
+      "title": "Correct manager",
+      "interface": "approval_api",
+      "execution_mode": "direct_approval_api",
+      "expected_outcome": "Approve only GitHub, leave email pending, and keep provisioning pending; repeated approval is idempotent.",
+      "actions": [
+        {
+          "approval_input": {
+            "employee_id": 1,
+            "approver": "  ROWAN FARROW  "
+          },
+          "approval_result": {
+            "id": 1,
+            "employee_id": 1,
+            "kind": "github",
+            "status": "approved_pending_provisioning"
+          },
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "approved_pending_provisioning"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Cleo Winter",
+              "role": "Infrastructure Engineer",
+              "start_date": "2029-09-03",
+              "manager": "Rowan Farrow"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Cleo Winter",
+              "role": "Infrastructure Engineer",
+              "start_date": "2029-09-03",
+              "manager": "Rowan Farrow"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "github": "approved_pending_provisioning",
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "github",
+              "approved_pending_provisioning"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 2,
+            "unique_requests": 2
+          },
+          "note": ""
+        },
+        {
+          "type": "approval_results",
+          "passed": true,
+          "expected": {
+            "type": "approval_results",
+            "equals": [
+              "approved_pending_provisioning"
+            ]
+          },
+          "observed": [
+            "approved_pending_provisioning"
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Cleo Winter",
+            "role": "Infrastructure Engineer",
+            "start_date": "2029-09-03",
+            "manager": "Rowan Farrow"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "approved_pending_provisioning"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 0,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.033222600002773106
+    },
+    {
+      "id": "A03",
+      "category": "approval_authorization",
+      "title": "Repeated approval",
+      "interface": "approval_api",
+      "execution_mode": "direct_approval_api",
+      "expected_outcome": "Approve only GitHub, leave email pending, and keep provisioning pending; repeated approval is idempotent.",
+      "actions": [
+        {
+          "approval_input": {
+            "employee_id": 1,
+            "approver": "Rowan Farrow"
+          },
+          "approval_result": {
+            "id": 1,
+            "employee_id": 1,
+            "kind": "github",
+            "status": "approved_pending_provisioning"
+          },
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "approved_pending_provisioning"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        },
+        {
+          "approval_input": {
+            "employee_id": 1,
+            "approver": "Rowan Farrow"
+          },
+          "approval_result": {
+            "id": 1,
+            "employee_id": 1,
+            "kind": "github",
+            "status": "approved_pending_provisioning"
+          },
+          "before": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "approved_pending_provisioning"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Cleo Winter",
+                "role": "Infrastructure Engineer",
+                "start_date": "2029-09-03",
+                "manager": "Rowan Farrow"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "approved_pending_provisioning"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Cleo Winter",
+              "role": "Infrastructure Engineer",
+              "start_date": "2029-09-03",
+              "manager": "Rowan Farrow"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Cleo Winter",
+              "role": "Infrastructure Engineer",
+              "start_date": "2029-09-03",
+              "manager": "Rowan Farrow"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "github": "approved_pending_provisioning",
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "github",
+              "approved_pending_provisioning"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 2,
+            "unique_requests": 2
+          },
+          "note": ""
+        },
+        {
+          "type": "approval_results",
+          "passed": true,
+          "expected": {
+            "type": "approval_results",
+            "equals": [
+              "approved_pending_provisioning",
+              "approved_pending_provisioning"
+            ]
+          },
+          "observed": [
+            "approved_pending_provisioning",
+            "approved_pending_provisioning"
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              1
+            ]
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Cleo Winter",
+            "role": "Infrastructure Engineer",
+            "start_date": "2029-09-03",
+            "manager": "Rowan Farrow"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "approved_pending_provisioning"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 0,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.04326479998417199
+    },
+    {
+      "id": "A04",
+      "category": "approval_authorization",
+      "title": "Nonexistent employee",
+      "interface": "approval_api",
+      "execution_mode": "direct_approval_api",
+      "expected_outcome": "Reject the approval and leave the database byte-for-byte unchanged.",
+      "actions": [
+        {
+          "approval_input": {
+            "employee_id": 999,
+            "approver": "Rowan Farrow"
+          },
+          "approval_result": {
+            "error": "Approval must be provided by the assigned manager"
+          },
+          "before": [],
+          "after": [],
+          "bytes_unchanged": true
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 0
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "approval_results",
+          "passed": true,
+          "expected": {
+            "type": "approval_results",
+            "equals": [
+              "error"
+            ]
+          },
+          "observed": [
+            "error"
+          ],
+          "note": ""
+        },
+        {
+          "type": "unchanged_after_actions",
+          "passed": true,
+          "expected": {
+            "type": "unchanged_after_actions",
+            "indexes": [
+              0
+            ],
+            "byte_for_byte": true
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [],
+      "injected_failure_calls": 0,
+      "errors": [
+        "Approval must be provided by the assigned manager"
+      ],
+      "api_usage": {
+        "mock_model_calls": 0,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.011826400004792958
+    },
+    {
+      "id": "R01",
+      "category": "robustness",
+      "title": "Rephrased onboarding",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Could you get Freya Keene set up for her ML Engineer position? She joins on 2029-10-01 and reports to Otis Wilder. She'll need a company email account and a laptop.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Freya Keene \u2014 ML Engineer. Start: 2029-10-01. Manager: Otis Wilder.\n- email: requested; fulfillment pending\n- laptop: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Freya Keene\", \"role\": \"ML Engineer\", \"start_date\": \"2029-10-01\", \"manager\": \"Otis Wilder\"}",
+              "result": {
+                "id": 1,
+                "name": "Freya Keene",
+                "role": "ML Engineer",
+                "start_date": "2029-10-01",
+                "manager": "Otis Wilder"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 2,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Freya Keene",
+                  "role": "ML Engineer",
+                  "start_date": "2029-10-01",
+                  "manager": "Otis Wilder"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Freya Keene",
+                  "role": "ML Engineer",
+                  "start_date": "2029-10-01",
+                  "manager": "Otis Wilder"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Freya Keene",
+                "role": "ML Engineer",
+                "start_date": "2029-10-01",
+                "manager": "Otis Wilder"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Freya Keene",
+              "role": "ML Engineer",
+              "start_date": "2029-10-01",
+              "manager": "Otis Wilder"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Freya Keene",
+              "role": "ML Engineer",
+              "start_date": "2029-10-01",
+              "manager": "Otis Wilder"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "email": "requested",
+              "laptop": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "laptop",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 2,
+            "unique_requests": 2
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Freya Keene",
+            "role": "ML Engineer",
+            "start_date": "2029-10-01",
+            "manager": "Otis Wilder"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "laptop",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.030469799996353686
+    },
+    {
+      "id": "R02",
+      "category": "robustness",
+      "title": "Different resource ordering",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "Request GitHub access, then a laptop, then email for Leif Arden. Onboard him as DevOps Engineer starting 2029-10-08, managed by Maren Fox.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Leif Arden \u2014 DevOps Engineer. Start: 2029-10-08. Manager: Maren Fox.\n- github: awaiting manager approval\n- laptop: requested; fulfillment pending\n- email: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Leif Arden\", \"role\": \"DevOps Engineer\", \"start_date\": \"2029-10-08\", \"manager\": \"Maren Fox\"}",
+              "result": {
+                "id": 1,
+                "name": "Leif Arden",
+                "role": "DevOps Engineer",
+                "start_date": "2029-10-08",
+                "manager": "Maren Fox"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"github\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "github",
+                "status": "pending_manager_approval"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 2,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "id": 3,
+                "employee_id": 1,
+                "kind": "email",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Leif Arden",
+                  "role": "DevOps Engineer",
+                  "start_date": "2029-10-08",
+                  "manager": "Maren Fox"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Leif Arden",
+                  "role": "DevOps Engineer",
+                  "start_date": "2029-10-08",
+                  "manager": "Maren Fox"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "github",
+                    "status": "pending_manager_approval"
+                  },
+                  {
+                    "id": 2,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  },
+                  {
+                    "id": 3,
+                    "employee_id": 1,
+                    "kind": "email",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Leif Arden",
+                "role": "DevOps Engineer",
+                "start_date": "2029-10-08",
+                "manager": "Maren Fox"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "github",
+                  "status": "pending_manager_approval"
+                },
+                {
+                  "id": 2,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                },
+                {
+                  "id": 3,
+                  "employee_id": 1,
+                  "kind": "email",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Leif Arden",
+              "role": "DevOps Engineer",
+              "start_date": "2029-10-08",
+              "manager": "Maren Fox"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Leif Arden",
+              "role": "DevOps Engineer",
+              "start_date": "2029-10-08",
+              "manager": "Maren Fox"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "github": "pending_manager_approval",
+              "laptop": "requested",
+              "email": "requested"
+            }
+          },
+          "observed": [
+            [
+              "email",
+              "requested"
+            ],
+            [
+              "github",
+              "pending_manager_approval"
+            ],
+            [
+              "laptop",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 3,
+            "unique_requests": 3
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Leif Arden",
+            "role": "DevOps Engineer",
+            "start_date": "2029-10-08",
+            "manager": "Maren Fox"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "github",
+              "status": "pending_manager_approval"
+            },
+            {
+              "id": 2,
+              "employee_id": 1,
+              "kind": "laptop",
+              "status": "requested"
+            },
+            {
+              "id": 3,
+              "employee_id": 1,
+              "kind": "email",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.03581769997254014
+    },
+    {
+      "id": "R03",
+      "category": "robustness",
+      "title": "Irrelevant text around request",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Exactly one matching employee and only the requested resources, with persisted pending statuses and a verified readback.",
+      "actions": [
+        {
+          "request": "The office plants were watered today, and the cafeteria has new mugs. Actual onboarding request: Anya Finch, Quality Engineer, start 2029-10-15, manager Hugo Fern. Request a laptop only. The weather discussion is unrelated.",
+          "answer": "Verified onboarding records (no resources were provisioned by this workflow):\n\nEmployee #1: Anya Finch \u2014 Quality Engineer. Start: 2029-10-15. Manager: Hugo Fern.\n- laptop: requested; fulfillment pending",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Anya Finch\", \"role\": \"Quality Engineer\", \"start_date\": \"2029-10-15\", \"manager\": \"Hugo Fern\"}",
+              "result": {
+                "id": 1,
+                "name": "Anya Finch",
+                "role": "Quality Engineer",
+                "start_date": "2029-10-15",
+                "manager": "Hugo Fern"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "id": 1,
+                "employee_id": 1,
+                "kind": "laptop",
+                "status": "requested"
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Anya Finch",
+                  "role": "Quality Engineer",
+                  "start_date": "2029-10-15",
+                  "manager": "Hugo Fern"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  }
+                ]
+              }
+            },
+            {
+              "tool": "get_onboarding",
+              "arguments": "{\"employee_id\": 1}",
+              "result": {
+                "employee": {
+                  "id": 1,
+                  "name": "Anya Finch",
+                  "role": "Quality Engineer",
+                  "start_date": "2029-10-15",
+                  "manager": "Hugo Fern"
+                },
+                "requests": [
+                  {
+                    "id": 1,
+                    "employee_id": 1,
+                    "kind": "laptop",
+                    "status": "requested"
+                  }
+                ]
+              },
+              "source": "verification"
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Anya Finch",
+                "role": "Quality Engineer",
+                "start_date": "2029-10-15",
+                "manager": "Hugo Fern"
+              },
+              "requests": [
+                {
+                  "id": 1,
+                  "employee_id": 1,
+                  "kind": "laptop",
+                  "status": "requested"
+                }
+              ]
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Anya Finch",
+              "role": "Quality Engineer",
+              "start_date": "2029-10-15",
+              "manager": "Hugo Fern"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Anya Finch",
+              "role": "Quality Engineer",
+              "start_date": "2029-10-15",
+              "manager": "Hugo Fern"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {
+              "laptop": "requested"
+            }
+          },
+          "observed": [
+            [
+              "laptop",
+              "requested"
+            ]
+          ],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 1,
+            "unique_requests": 1
+          },
+          "note": ""
+        },
+        {
+          "type": "no_errors",
+          "passed": true,
+          "expected": {
+            "type": "no_errors"
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "verified_readback",
+          "passed": true,
+          "expected": {
+            "type": "verified_readback"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Anya Finch",
+            "role": "Quality Engineer",
+            "start_date": "2029-10-15",
+            "manager": "Hugo Fern"
+          },
+          "requests": [
+            {
+              "id": 1,
+              "employee_id": 1,
+              "kind": "laptop",
+              "status": "requested"
+            }
+          ]
+        }
+      ],
+      "injected_failure_calls": 0,
+      "errors": [],
+      "api_usage": {
+        "mock_model_calls": 4,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.026895900024101138
+    },
+    {
+      "id": "R04",
+      "category": "robustness",
+      "title": "Injected resource tool failure",
+      "interface": "agent",
+      "execution_mode": "mocked",
+      "expected_outcome": "Employee creation may commit, but the injected create_request failure must be observed, stop later resource calls, and report failure without provisioning claims.",
+      "actions": [
+        {
+          "request": "Onboard Davin Rook as Systems Engineer starting 2029-10-22, manager Iris Hawthorn. Request laptop and email.",
+          "answer": "Workflow stopped: create_request: Tool execution failed. Review stored records before retrying. Earlier actions may already be saved. Review stored records before retrying.",
+          "trace": [
+            {
+              "tool": "create_employee",
+              "arguments": "{\"name\": \"Davin Rook\", \"role\": \"Systems Engineer\", \"start_date\": \"2029-10-22\", \"manager\": \"Iris Hawthorn\"}",
+              "result": {
+                "id": 1,
+                "name": "Davin Rook",
+                "role": "Systems Engineer",
+                "start_date": "2029-10-22",
+                "manager": "Iris Hawthorn"
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"laptop\"}",
+              "result": {
+                "error": "Tool execution failed. Review stored records before retrying."
+              }
+            },
+            {
+              "tool": "create_request",
+              "arguments": "{\"employee_id\": 1, \"kind\": \"email\"}",
+              "result": {
+                "error": "Skipped because an earlier tool call failed"
+              }
+            }
+          ],
+          "before": [],
+          "after": [
+            {
+              "employee": {
+                "id": 1,
+                "name": "Davin Rook",
+                "role": "Systems Engineer",
+                "start_date": "2029-10-22",
+                "manager": "Iris Hawthorn"
+              },
+              "requests": []
+            }
+          ],
+          "bytes_unchanged": false
+        }
+      ],
+      "assertions": [
+        {
+          "type": "employee_count",
+          "passed": true,
+          "expected": {
+            "type": "employee_count",
+            "equals": 1
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "employee_details",
+          "passed": true,
+          "expected": {
+            "type": "employee_details",
+            "equals": {
+              "name": "Davin Rook",
+              "role": "Systems Engineer",
+              "start_date": "2029-10-22",
+              "manager": "Iris Hawthorn"
+            }
+          },
+          "observed": [
+            {
+              "id": 1,
+              "name": "Davin Rook",
+              "role": "Systems Engineer",
+              "start_date": "2029-10-22",
+              "manager": "Iris Hawthorn"
+            }
+          ],
+          "note": ""
+        },
+        {
+          "type": "request_statuses",
+          "passed": true,
+          "expected": {
+            "type": "request_statuses",
+            "equals": {}
+          },
+          "observed": [],
+          "note": ""
+        },
+        {
+          "type": "unique_records",
+          "passed": true,
+          "expected": {
+            "type": "unique_records"
+          },
+          "observed": {
+            "employees": 1,
+            "unique_employees": 1,
+            "requests": 0,
+            "unique_requests": 0
+          },
+          "note": ""
+        },
+        {
+          "type": "injected_failure_observed",
+          "passed": true,
+          "expected": {
+            "type": "injected_failure_observed"
+          },
+          "observed": 1,
+          "note": ""
+        },
+        {
+          "type": "failure_reported",
+          "passed": true,
+          "expected": {
+            "type": "failure_reported"
+          },
+          "observed": [
+            true
+          ],
+          "note": ""
+        },
+        {
+          "type": "no_successful_resource_calls",
+          "passed": true,
+          "expected": {
+            "type": "no_successful_resource_calls"
+          },
+          "observed": 0,
+          "note": ""
+        },
+        {
+          "type": "no_provider_or_execution_limit_failure",
+          "passed": true,
+          "observed": []
+        }
+      ],
+      "final_state": [
+        {
+          "employee": {
+            "id": 1,
+            "name": "Davin Rook",
+            "role": "Systems Engineer",
+            "start_date": "2029-10-22",
+            "manager": "Iris Hawthorn"
+          },
+          "requests": []
+        }
+      ],
+      "injected_failure_calls": 1,
+      "errors": [
+        "Tool execution failed. Review stored records before retrying.",
+        "Skipped because an earlier tool call failed"
+      ],
+      "api_usage": {
+        "mock_model_calls": 2,
+        "live_sdk_calls": 0,
+        "live_responses": 0,
+        "responses_with_usage": 0,
+        "observed_tokens": null,
+        "errors": []
+      },
+      "status": "passed",
+      "failed_assertions": [],
+      "duration_seconds": 0.020661299990024418
+    }
+  ]
+}

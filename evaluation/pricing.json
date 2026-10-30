@@ -1,0 +1,21 @@
+{
+  "verified_on": "2026-10-30",
+  "currency": "USD",
+  "service_tier": "default",
+  "source": "https://developers.openai.com/api/docs/models/gpt-4.1-mini",
+  "models": {
+    "gpt-4.1-mini": {
+      "input_per_million": 0.4,
+      "output_per_million": 1.6,
+      "context_window_tokens": 1047576,
+      "max_output_tokens": 32768
+    },
+    "gpt-4.1-mini-2025-04-14": {
+      "input_per_million": 0.4,
+      "output_per_million": 1.6,
+      "context_window_tokens": 1047576,
+      "max_output_tokens": 32768
+    }
+  },
+  "assumptions": "Standard OpenAI text Chat Completions, one completion per request, no hosted tools, no retries. The estimate conservatively charges the full context window as uncached input plus the configured output cap on every allowed call. This is not a typical-use forecast or an account-wide billing limit; recheck pricing before future runs."
+}
