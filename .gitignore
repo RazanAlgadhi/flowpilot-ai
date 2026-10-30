@@ -29,6 +29,10 @@ __pycache__/
 .flowpilot/
 *_backup.py
 evaluation/live/
+/evaluation/heldout/results.csv
+/evaluation/heldout/summary.json
+/evaluation/heldout/EVALUATION_REPORT.md
+/evaluation/heldout/pilot/
 *.log
 .coverage
 htmlcov/

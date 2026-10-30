@@ -1,0 +1,21 @@
+{
+  "kind": "sanitized_publication_derivative",
+  "prepared_on": "2026-10-30",
+  "note": "Only local workstation paths were normalized to repository-relative paths. Original live evidence remains local and unchanged. Original hashes are provenance references, not hashes of sanitized copies.",
+  "original_sha256": {
+    "results.csv": "effefe6d9030f69622c26cd1fdcd1517abaf3805f228c25950bf626a8cc1a8dd",
+    "summary.json": "9762bef9facd1e2ad8957b89039c202cff601d072423dc0b1b7643a99b69dfa2",
+    "EVALUATION_REPORT.md": "566be4efa809d3e1e22bd09a65f768b4a98677f8e4270fd55523405a81f002d5",
+    "pilot/results.csv": "7816b7a3a44df3dc53e038317660c30fb9819aca25df20a52de793145e0529b9",
+    "pilot/summary.json": "a43be3d554fb3b0f0ec899ac65aba448d3ac36e3132c0fd1f1dab1479185a3ae",
+    "pilot/EVALUATION_REPORT.md": "e1869f8ddbcbc2e6fc63b09c837e1011ab8aa3bcc6dfdaa7e5a61621fe116d70"
+  },
+  "published_sha256": {
+    "results.csv": "effefe6d9030f69622c26cd1fdcd1517abaf3805f228c25950bf626a8cc1a8dd",
+    "summary.json": "985a49cf9a8e2f32161d9eef3ad97f372afde6c9406bb469a2f3036722b6e0d3",
+    "EVALUATION_REPORT.md": "9fd073c06c911424e049e9dc6d98ebeadcad31bcd344d6f6b42b7114753943b8",
+    "pilot/results.csv": "7816b7a3a44df3dc53e038317660c30fb9819aca25df20a52de793145e0529b9",
+    "pilot/summary.json": "d3af016e35dcab340eef7fdfbecc4e6e950cce6b8539c136d5d886534bbf247f",
+    "pilot/EVALUATION_REPORT.md": "26778c07082dc826af6710794a98d4e5801ba7872bf3c7bba0f3eea103804fa5"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "protocol_version": 2,
+  "amended_on": "2026-10-30",
+  "reason": "User-authorized remaining-only selection and report aggregation after the completed pilot. No changes to agent execution, grading, cases, expected outcomes or original pilot records.",
+  "parent_protocol_sha256": "2901de8c5738399bf88c70c32efafd99c6a107c68c0e9dfe1e58354bb9012640",
+  "parent_runner_sha256": "6a8c45a475591b34131ce49b19d215ec6fc1b0f4dc9a75dd3ade93e07ab3abd5",
+  "protected_ast_sha256": {
+    "Recorder": "e0b335a2dd69bdc8d6aada824e254b6cd1b647698989a17ca1c872ef7abdf67e",
+    "state": "c688897a2b8dfbb99f28bdd18874fbea417d2337a0ade69ad4225063b6b02b67",
+    "judge": "d533d4c05c2ca61af0fef6f8bd9603877793448b91bc356b824f9b0c14fcf3c6",
+    "approval_probes": "9b6e65b5daca4fbe201d67a6965a83e60f30fe6f3830029c483355ddaef57e86",
+    "run_case": "7ba995e0531d9399bf93d6a493e026e70b8f04965520361248e3af37f10541d7",
+    "summarize": "880cfd9d24a873362a341bfe79117a0fcf44fa6b698fb9ab44c7e071082d960d"
+  },
+  "sha256": {
+    "app.py": "372b97956711a0d2c9d684cb05b53d7754aa34a0d097de83af7d2e7b310527d2",
+    "agent.py": "9ff642eaba741cf0e050f121fba1e0bc95db705fe33cea30d199db1072670c75",
+    "db.py": "0a3f18d832bc51fb23aa3941242a00f9662367544678b0577a4493f49e309462",
+    "runtime_config.py": "20eed640dd24eb252d454443cecdd4a7617c96e0ba20e2a69946d97a8de8b278",
+    "safeguards.py": "589c07e2e05973b88a41b0aa2a2621a8952e8223b0301b32e5a1e1ae70df80f7",
+    "demo_scenarios.py": "fc4da3356f8eb842e0ec6a950052874dc1864abab3b585f347065295761a03b3",
+    "evaluation/run_benchmark.py": "769daf075090a0f9d01dedabe7c4bf618a560ab4918c413b16a31d6c71d7ce85",
+    "evaluation/pricing.json": "542fa2172beea9662a9ea5a612678e047d9b08af711a4b0ee4f93d8e2050d9ca",
+    "evaluation/heldout/scenarios.json": "4cab29c8c1bf15e2a33d990846078febbf4b43ffe88a76d05c5a04cc8a3b0140",
+    "evaluation/heldout/run_heldout.py": "6b32e07b0335cf068974159f393ac88ed8ea38877ecfc70bd230305e7fa7b7c1"
+  }
+}

@@ -8,10 +8,10 @@ Production database fingerprint unchanged: **True**.
 
 ## Reproduce this run
 
-Run from: `C:\Users\Angel\humain-hackathon`
+Run from: `.`
 
 ```powershell
-& 'C:\Users\Angel\humain-hackathon\.venv\Scripts\python.exe' 'evaluation/run_benchmark.py'
+& '.\.venv\Scripts\python.exe' 'evaluation/run_benchmark.py'
 ```
 
 ## Metrics

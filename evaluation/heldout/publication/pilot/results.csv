@@ -1,0 +1,4 @@
+id,category,mode,status,agent_duration_seconds,failed_checks,errors,live_api_calls
+H01,straightforward,live,passed,7.822647900029551,[],[],4
+H09,challenging,live,passed,9.246721300005447,[],[],4
+H12,invalid_or_unsupported,live,passed,1.9138772999867797,[],[],1

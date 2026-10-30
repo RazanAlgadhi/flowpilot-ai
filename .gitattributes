@@ -1,0 +1,8 @@
+# Keep frozen Python/pricing source hashes portable across Windows checkouts.
+*.py text eol=lf
+evaluation/pricing.json text eol=lf
+# Preserve exact bytes of the original dataset, protocol lineage and public evidence.
+evaluation/heldout/scenarios.json -text
+evaluation/heldout/protocol.json -text
+evaluation/heldout/protocol_remaining.json -text
+evaluation/heldout/publication/** -text

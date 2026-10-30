@@ -1,0 +1,16 @@
+id,category,mode,status,agent_duration_seconds,failed_checks,errors,live_api_calls
+H01,straightforward,live,passed,7.822647900029551,[],[],4
+H02,straightforward,live,passed,7.36200020002434,[],[],4
+H03,straightforward,live,passed,5.522155800019391,[],[],4
+H04,straightforward,live,passed,3.1722765000304207,[],[],2
+H05,language_variation,live,passed,6.031732200004626,[],[],4
+H06,language_variation,live,passed,9.29485039995052,[],[],6
+H07,language_variation,live,passed,5.205274100007955,[],[],4
+H08,language_variation,live,passed,4.978063900023699,[],[],4
+H09,challenging,live,passed,9.246721300005447,[],[],4
+H10,challenging,live,passed,11.117076799971983,[],[],8
+H11,challenging,live,passed,5.930706600018311,[],[],4
+H12,invalid_or_unsupported,live,passed,1.9138772999867797,[],[],1
+H13,invalid_or_unsupported,live,passed,1.6304868999868631,[],[],1
+H14,invalid_or_unsupported,live,passed,1.6376622000243515,[],[],1
+H15,invalid_or_unsupported,live,passed,2.3471171999699436,[],[],1

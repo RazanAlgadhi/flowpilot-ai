@@ -1,0 +1,18 @@
+{
+  "protocol_version": 1,
+  "frozen_on": "2026-10-30",
+  "live_executions_at_freeze": 0,
+  "note": "Expectations and evaluator frozen before any live calls; offline tests use unrelated fixtures. Do not refresh this manifest to conceal tuning.",
+  "sha256": {
+    "app.py": "372b97956711a0d2c9d684cb05b53d7754aa34a0d097de83af7d2e7b310527d2",
+    "agent.py": "9ff642eaba741cf0e050f121fba1e0bc95db705fe33cea30d199db1072670c75",
+    "db.py": "0a3f18d832bc51fb23aa3941242a00f9662367544678b0577a4493f49e309462",
+    "runtime_config.py": "20eed640dd24eb252d454443cecdd4a7617c96e0ba20e2a69946d97a8de8b278",
+    "safeguards.py": "589c07e2e05973b88a41b0aa2a2621a8952e8223b0301b32e5a1e1ae70df80f7",
+    "demo_scenarios.py": "fc4da3356f8eb842e0ec6a950052874dc1864abab3b585f347065295761a03b3",
+    "evaluation/run_benchmark.py": "769daf075090a0f9d01dedabe7c4bf618a560ab4918c413b16a31d6c71d7ce85",
+    "evaluation/pricing.json": "542fa2172beea9662a9ea5a612678e047d9b08af711a4b0ee4f93d8e2050d9ca",
+    "evaluation/heldout/scenarios.json": "4cab29c8c1bf15e2a33d990846078febbf4b43ffe88a76d05c5a04cc8a3b0140",
+    "evaluation/heldout/run_heldout.py": "6a8c45a475591b34131ce49b19d215ec6fc1b0f4dc9a75dd3ade93e07ab3abd5"
+  }
+}

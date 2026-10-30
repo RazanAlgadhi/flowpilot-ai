@@ -14,7 +14,7 @@ FlowPilot is a Streamlit employee-onboarding demo for HUMAIN Challenge 3: Autono
 | `runtime_config.py` | Streamlit secrets/environment/local configuration, secret redaction, credential-safe logging |
 | `safeguards.py` | Atomic daily request quota and per-session workflow leases in a separate server-side SQLite file |
 | `demo_scenarios.py` | Server-owned synthetic requests and permitted employee/resource values |
-| `evaluation/` | 25-scenario mocked/opt-in live benchmark with isolated databases and separate reports |
+| `evaluation/` | 25-case scripted benchmark plus a separate 15-case live held-out evaluation using isolated databases |
 | `tools/` | Read-only publication audit and no-workflow Streamlit startup smoke test |
 
 Dependencies are in `requirements.txt`: Streamlit, OpenAI SDK, python-dotenv, and pytest. SQLite, context variables, and locking helpers use the Python standard library. No extra package was added for deployment safeguards. The Streamlit minimum is the locally tested 1.66.1 so deployments use the verified exception-display configuration.
@@ -67,7 +67,7 @@ The quota is an atomic SQLite transaction in `control.sqlite3`, **not Streamlit 
 
 ## Prepare GitHub manually
 
-This workspace had no Git repository at the time of preparation, so no local commit history was available to audit. Do not assume that any previous remote repository is secret-free. The audit scans publishable source for credential patterns and, when a Git repository exists, checks tracked paths and reachable history/reflogs without printing secret values.
+The final audit checks publishable files and local reachable history/reflogs without printing matched values. Current publication reports use portable paths. Older reachable Git objects still contain workstation-user paths, so the history privacy audit remains flagged; a new commit does not remove that history. Review [SUBMISSION_REVIEW.md](SUBMISSION_REVIEW.md) before publication. Remote or pruned history is outside this audit.
 
 Run these read-only checks first:
 
@@ -86,7 +86,7 @@ git diff --cached --name-only
 .\.venv\Scripts\python.exe tools/audit_repository.py
 ```
 
-Review the staged filenames before committing. They must not include `.env`, virtual environments, caches, `.streamlit/secrets.toml`, private keys, local databases or their journals, or live evaluation reports. `.gitignore` covers these paths. Do not force-add ignored files. Ignore rules do not untrack an already committed file; the audit flags such cases. If a real credential is found in history, revoke/rotate it and resolve that history before publication.
+Review staged filenames before committing. Exclude `.env`, virtual environments, caches, `.streamlit/secrets.toml`, private keys, local databases/journals and original machine-specific live reports. Publish the reviewed live evidence under `evaluation/heldout/publication/` instead; its manifest distinguishes original hashes from sanitized-copy hashes. `.gitignore` excludes the original held-out reports and pilot directory. Do not force-add them. Ignore rules do not remove history. If a real credential is found, revoke/rotate it and address that history before publication.
 
 Create an empty GitHub repository yourself. After the audit is clean and staged filenames are reviewed, replace `YOUR_USER/YOUR_REPO` below and run these commands manually:
 
@@ -123,15 +123,38 @@ Official instructions: [repository, entry point, and Python selection](https://d
 
 ## Tests and evaluation
 
+**Live held-out result: 15/15 synthetic scenarios passed**, using the unchanged production agent and real GPT-4.1 mini tool calling. The pilot passed 3/3 with 9 API requests; the other 12 passed with 43. The combined report imports the pilot once, totaling **52 requests**. Returned model: `gpt-4.1-mini-2025-04-14`.
+
+| Live metric | Recorded result |
+| --- | --- |
+| Exact scenario success | 15/15 |
+| Employee field accuracy | 44/44 fields |
+| Exact resource request accuracy | 11/11 applicable cases |
+| GitHub approval-policy compliance | 5/5 applicable cases |
+| Safe invalid/unsupported-input handling | 4/4 cases |
+| Tool execution errors | 0/42 attempted model tool calls |
+| Mean scenario time | 83.2126493 seconds / 15 = **5.55 seconds** |
+| Separate direct simulator checks | 3/3; not model task successes |
+
+Usage was recorded for **52/52 requests**: 23,246 input and 2,109 output tokens (25,355 total). At the frozen uncached standard-tier rates, estimated token cost is **$0.0126728** (about 1.27 US cents), not a verified invoice. Pilot estimate: $0.0022916; remaining estimate: $0.0103812. Preflight worst-case ceilings are budget estimates, not measured costs.
+
+Scoring checks stored SQLite rows and tool traces, not just the final answer. Cases were separate from prior demos/fixtures, with expectations fixed before execution. This small, deliberately constructed synthetic set does **not** establish general enterprise reliability; invalid handling measures safe abstention, not clarification quality. Approvals are unauthenticated simulations, and nothing is provisioned.
+
+See the [publication report](evaluation/heldout/publication/EVALUATION_REPORT.md), [machine-readable evidence](evaluation/heldout/publication/summary.json), and [held-out methodology](evaluation/heldout/README.md). Publication copies normalize only workstation paths; original local evidence and frozen scoring logic remain unchanged.
+
+Reproduce all **offline** checks from the repository root:
+
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe tools/prepare_submission.py
+.\.venv\Scripts\python.exe tools/audit_repository.py
 .\.venv\Scripts\python.exe tools/smoke_streamlit.py
-.\.venv\Scripts\python.exe evaluation/run_benchmark.py
+.\.venv\Scripts\python.exe evaluation/run_benchmark.py --output-dir .flowpilot/benchmark
 ```
 
-Tests use temporary databases, synthetic records, and mocked API responses. The startup smoke test starts a hidden local Streamlit process, checks its health endpoint, submits no workflows, sets the daily quota to zero, and stops the process. Neither command requires paid calls.
+Tests use temporary databases, synthetic records, and mocked API responses. The startup smoke test starts a hidden local Streamlit process, checks its health endpoint, submits no workflows, sets the daily quota to zero, and stops the process. These commands require no paid calls. The benchmark command above writes a fresh mocked run into ignored local storage so it does not replace reviewed publication reports or reintroduce workstation paths into tracked files.
 
-The benchmark includes 21 agent scenarios and 4 direct approval tests. **Mocked result: 25/25 passed; this is scripted workflow correctness, not live LLM performance.** Current reports are under `evaluation/mocked/`; historical root reports remain unchanged. See [TEST_REPORT.md](TEST_REPORT.md) for regression results and [evaluation/README.md](evaluation/README.md) for benchmark methods and limitations.
+The older benchmark includes 21 scripted agent scenarios and 4 direct approval tests. **Mocked result: 25/25 passed; this is workflow testing, not live LLM performance and is not pooled with the 15-case live score.** Reports are under `evaluation/mocked/`. Their local paths have been normalized for publication without changing results. See [SUBMISSION_REVIEW.md](SUBMISSION_REVIEW.md) for current regression/security results and [evaluation/README.md](evaluation/README.md) for the older benchmark methodology.
 
 Preview live evaluation without executing it:
 
@@ -139,7 +162,7 @@ Preview live evaluation without executing it:
 .\.venv\Scripts\python.exe evaluation/run_benchmark.py --dry-run --max-api-calls 100 --max-completion-tokens 1024
 ```
 
-Live evaluation requires `--live` and is **not** run automatically. It uses a separate run-wide budget, separate output directory, and temporary application quota/storage so it does not consume the dashboard's quota file or modify demo records. No live success rate has been measured in this preparation.
+Live evaluation requires explicit `--live` and is **not** part of the offline tests. Historical pilot and remaining commands, limits, dates and environments are preserved in the publication report. Repeating them consumes credits and is a new repeated evaluation, not another unseen measurement. Existing local outputs are protected against overwrite. A fresh checkout can reproduce the workflow by running the documented pilot and remaining commands with its own credentials after approval; original private artifacts are not needed to verify the published evidence offline.
 
 ## Known limitations
 
@@ -150,4 +173,4 @@ Live evaluation requires `--live` and is **not** run automatically. It uses a se
 - Workflow leases have a recovery expiry; an unusually long-running operation beyond that expiry could overlap a replacement execution. Database uniqueness still prevents duplicate employee/resource identities.
 - Browser-session databases and lease rows are not a permanent storage or retention system. They remain on local server storage until that storage is cleared; no authenticated account recovery or scheduled retention cleanup is implemented.
 - Database actions commit individually. Later tool/API failures do not roll back earlier actions. Retries preserve resource approval status, and summaries read back stored records instead of trusting model-written success claims.
-- Live model extraction, real provisioning, cloud-host behavior, and production-scale adversarial load have not been verified by offline tests. The static secret scan is pattern-based and cannot prove the absence of every possible secret.
+- Live extraction was measured only on the 15 synthetic held-out cases. Real provisioning, cloud-host behavior, and production-scale adversarial load were not tested by that evaluation. Static privacy/secret scanning cannot prove the absence of every possible secret or personal information.

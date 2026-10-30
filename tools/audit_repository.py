@@ -8,6 +8,7 @@ import tempfile
 from pathlib import Path
 
 PATTERNS = {
+    'sensitive_local_user_path': re.compile(r'''(?:[A-Za-z]:[\\/]+Users[\\/]+[^\\/\s"']+|/(?:home|Users)/[^/\s"']+)'''),
     'openai_key_shape': re.compile(r'\bsk-[A-Za-z0-9_-]{20,}'),
     'github_token_shape': re.compile(r'\b(?:gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{30,})'),
     'aws_access_key_shape': re.compile(r'\b(?:AKIA|ASIA)[A-Z0-9]{16}\b'),
@@ -115,6 +116,8 @@ def audit(root):
             # Values remain in memory; never output blob text or match snippets.
             content = git(root, 'cat-file', 'blob', oid).stdout.decode(errors='replace')
             history_blobs += 1
+            # Historical workstation paths are privacy findings, separately actionable
+            # from credentials; never print their values.
             findings.extend({'path': name, 'category': 'history_' + category} for category in scan_text(content))
     return {'git_repository': repo, 'history_status': history_status, 'history_blobs_scanned': history_blobs,
             'candidate_files_scanned': scanned, 'required_ignore_rules_passed': all(name in checked for name in REQUIRED_IGNORES),

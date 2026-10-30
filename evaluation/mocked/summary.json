@@ -2,8 +2,8 @@
   "benchmark_version": 2,
   "generated_at_utc": "2026-10-30T00:07:53.266064+00:00",
   "mode": "mocked",
-  "command": "& 'C:\\Users\\Angel\\humain-hackathon\\.venv\\Scripts\\python.exe' 'evaluation/run_benchmark.py'",
-  "working_directory": "C:\\Users\\Angel\\humain-hackathon",
+  "command": "& '.\\.venv\\Scripts\\python.exe' 'evaluation/run_benchmark.py'",
+  "working_directory": ".",
   "production_database_unchanged": true,
   "environment": {
     "python": "3.11.0",
