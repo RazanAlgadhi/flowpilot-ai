@@ -65,39 +65,6 @@ The OpenAI client has automatic retries disabled, requests one completion, uses 
 
 The quota is an atomic SQLite transaction in `control.sqlite3`, **not Streamlit session state**. It is shared by sessions and processes pointing to that same file. The workflow lease rejects concurrent submissions within a session and identical requests repeated within 30 seconds. Leases expire after a conservative timeout to recover from a crashed process. These controls reduce accidental duplicate spending; they are not an abuse-proof identity or billing system.
 
-## Prepare GitHub manually
-
-The final audit checks publishable files and local reachable history/reflogs without printing matched values. Current publication reports use portable paths. Older reachable Git objects still contain workstation-user paths, so the history privacy audit remains flagged; a new commit does not remove that history. Review [SUBMISSION_REVIEW.md](SUBMISSION_REVIEW.md) before publication. Remote or pruned history is outside this audit.
-
-Run these read-only checks first:
-
-```powershell
-.\.venv\Scripts\python.exe tools/audit_repository.py
-.\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\python.exe tools/smoke_streamlit.py
-```
-
-Then initialize and stage locally **when you choose to publish**:
-
-```powershell
-git init
-git add .
-git diff --cached --name-only
-.\.venv\Scripts\python.exe tools/audit_repository.py
-```
-
-Review staged filenames before committing. Exclude `.env`, virtual environments, caches, `.streamlit/secrets.toml`, private keys, local databases/journals and original machine-specific live reports. Publish the reviewed live evidence under `evaluation/heldout/publication/` instead; its manifest distinguishes original hashes from sanitized-copy hashes. `.gitignore` excludes the original held-out reports and pilot directory. Do not force-add them. Ignore rules do not remove history. If a real credential is found, revoke/rotate it and address that history before publication.
-
-Create an empty GitHub repository yourself. After the audit is clean and staged filenames are reviewed, replace `YOUR_USER/YOUR_REPO` below and run these commands manually:
-
-```powershell
-git commit -m "Prepare FlowPilot AI public demo"
-git branch -M main
-git remote add origin https://github.com/YOUR_USER/YOUR_REPO.git
-git push -u origin main
-```
-
-No GitHub repository creation, project Git initialization, remote changes, push, or deployment was performed during preparation. The only temporary Git repositories created by the audit/tests are disposable local fixtures.
 
 ## Streamlit Community Cloud deployment
 
