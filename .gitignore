@@ -36,3 +36,5 @@ evaluation/live/
 *.log
 .coverage
 htmlcov/
+SUBMISSION_REVIEW.md
+SECURITY_REVIEW.md
