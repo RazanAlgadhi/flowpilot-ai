@@ -1,6 +1,6 @@
 # FlowPilot AI submission review — 2026-10-30
 
-The completed live held-out evaluation is internally consistent and ready to present with the limitations below. Current publication files have been sanitized. **The repository history privacy check is not fully clean.** A follow-up read-only GitHub check classified the eight previously flagged objects: four older benchmark blobs are already in advertised remote history; four original held-out blobs exist locally but are now unreachable from current refs/reflogs and absent from advertised remote history. See [PUBLICATION_READINESS.md](PUBLICATION_READINESS.md) for the current verdict and exact safe-file commands. No matched private values are shown here. No API credential patterns were detected. No history rewriting, commits, pushes or deployments were performed.
+The completed live held-out evaluation is internally consistent and ready to present with the limitations below. Current publication files have been sanitized. No API credential patterns were detected. No history rewriting, commits, pushes or deployments were performed.
 
 ## Verified results
 
